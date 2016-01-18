@@ -1,0 +1,13 @@
+---
+  - name: Check if huptime is installed.
+    command: which huptime
+    changed_when: false
+    failed_when: false
+    register: huptime_installed
+
+  - block:
+    - name: Clone huptime
+      git: repo=https://github.com/amscanne/huptime.git dest=/tmp/huptime
+    - name: Install huptime
+      command: make install chdir=/tmp/huptime
+    when: huptime_installed|failed
